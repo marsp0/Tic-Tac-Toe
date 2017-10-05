@@ -4,12 +4,6 @@ int main()
 {
     // Program entry point
     Game game;
-    while (!game.GetWindow()->IsDone()){
-        // game loop here
-        game.HandleInput();
-        game.Update();
-        game.Render();
-        game.RestartClock();
-    }
+    game.Run();
     return 0;
 }

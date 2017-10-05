@@ -1,7 +1,7 @@
 #pragma once
-#include "Window.hpp"
 #include "World.hpp"
 #include "PlayerX.hpp"
+#include <SFML/Graphics.hpp>
 
 
 class Game{
@@ -20,11 +20,15 @@ public:
     
 	void RestartClock();
 
-    Window* GetWindow();
+    sf::RenderWindow* GetWindow();
+
+    void Run();
+
+    void ProcessEvents();
     
 private:
 
-    Window m_window;
+    sf::RenderWindow m_window;
     World m_world;
     PlayerX m_playerX;
     PlayerX m_playerO;
