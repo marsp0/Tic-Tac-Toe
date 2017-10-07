@@ -35,8 +35,9 @@ void PlayerX::Render(sf::RenderWindow& l_window){
 bool PlayerX::Update(sf::Vector2i l_position, PlayerX& otherPlayer) {
     int column;
     int row;
-    column = (int) l_position.x/250;
-    row = (int) l_position.y/250;
+    
+    column = (int) l_position.x/262;
+    row = (int) l_position.y/262;
     if (!m_spriteStruct[column][row].second and otherPlayer.CanIDraw(column,row)) {
         m_spriteStruct[column][row].second = true;
         return true;

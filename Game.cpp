@@ -1,15 +1,18 @@
 #include "Game.hpp"
 #include "World.hpp"
 #include "PlayerX.hpp"
+#include "Menu.hpp"
 #include <iostream>
 
 Game::Game() : m_window(sf::VideoMode(800,800,32),
-                "Tic Tac Toe", sf::Style::Default ),
+                "Tic Tac Toe", sf::Style::Titlebar | sf::Style::Close ),
                 m_world(sf::Vector2u(800,800)),
                 m_playerX("PlayerX.png"),
                 m_playerO("PlayerO.png"),
-                m_turn(1)
+                m_turn(1),
+                m_currentState(0)
 {
+    m_window.setFramerateLimit(60);
     m_clock.restart();
     // WHY?
 	srand(time(nullptr));
@@ -30,12 +33,19 @@ sf::RenderWindow* Game::GetWindow(){
 }
 
 void Game::HandleInput(){
-    if (m_turn) {
-        m_playerX.Update(sf::Mouse::getPosition(*GetWindow()),m_playerO);
+    if (m_currentState) {
+        bool temp;
+        if (m_turn) {
+            temp = m_playerX.Update(sf::Mouse::getPosition(*GetWindow()),m_playerO);
+        } else {
+            temp = m_playerO.Update(sf::Mouse::getPosition(*GetWindow()), m_playerX);
+        }
+        if (temp) {
+            m_turn = 1 - m_turn;
+        }
     } else {
-        m_playerO.Update(sf::Mouse::getPosition(*GetWindow()), m_playerX);
+        m_menu.Update(sf::Mouse::getPosition(*GetWindow()));
     }
-    m_turn = 1 - m_turn;
 }
 
 void Game::ProcessEvents() {
@@ -46,7 +56,11 @@ void Game::ProcessEvents() {
             break;
 		} else if (event.type == sf::Event::EventType::MouseButtonPressed) {
             HandleInput();
-		}
+		} else if (event.type == sf::Event::EventType::KeyPressed) {
+            if (event.key.code == sf::Keyboard::Key::Escape) {
+                m_currentState = 1 - m_currentState;
+            }
+        }
 	}
 }
 
@@ -59,9 +73,13 @@ void Game::Update(){
 
 void Game::Render(){
     m_window.clear(sf::Color::White);
-    m_world.Render(*GetWindow());
-    m_playerX.Render(*GetWindow());
-    m_playerO.Render(*GetWindow());
+    if (m_currentState){
+        m_world.Render(*GetWindow());
+        m_playerX.Render(*GetWindow());
+        m_playerO.Render(*GetWindow());
+    } else {
+        m_menu.Render(*GetWindow());
+    }
     // Rendering goes here
 	m_window.display();
 }
