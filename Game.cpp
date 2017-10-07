@@ -3,7 +3,12 @@
 #include "PlayerX.hpp"
 #include <iostream>
 
-Game::Game() : m_window(sf::VideoMode(800,800,32),"Tic Tac Toe", sf::Style::Default ),m_world(sf::Vector2u(800,800)), m_playerX("PlayerX.png"), m_playerO("PlayerO.png"), m_turn(1)
+Game::Game() : m_window(sf::VideoMode(800,800,32),
+                "Tic Tac Toe", sf::Style::Default ),
+                m_world(sf::Vector2u(800,800)),
+                m_playerX("PlayerX.png"),
+                m_playerO("PlayerO.png"),
+                m_turn(1)
 {
     m_clock.restart();
     // WHY?
@@ -25,7 +30,6 @@ sf::RenderWindow* Game::GetWindow(){
 }
 
 void Game::HandleInput(){
-    bool check;
     if (m_turn) {
         m_playerX.Update(sf::Mouse::getPosition(*GetWindow()),m_playerO);
     } else {
@@ -49,7 +53,7 @@ void Game::ProcessEvents() {
 void Game::Update(){
 	float timestep = 1.0f / 15;
 	if(m_elapsed >= timestep){
-		m_elapsed -= timestep;
+        m_elapsed -= timestep;
 	}
 }
 
