@@ -3,12 +3,18 @@
 #include <SFML/Graphics.hpp>
 #include "Button.hpp"
 
+enum class ButtonState {
+    None = 0,
+    NewGame,
+    CloseGame
+};
+
 class Menu {
 public:
     Menu();
     ~Menu();
 
-    void Update(sf::Vector2i l_mousePosition);
+    ButtonState Update(sf::Vector2i l_mousePosition);
 
     void Render(sf::RenderWindow& l_window);
 
@@ -20,5 +26,5 @@ private:
     
     Button m_newGame;
     Button m_closeGame;
-
+    
 };

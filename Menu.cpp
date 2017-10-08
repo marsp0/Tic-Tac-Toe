@@ -24,9 +24,15 @@ Menu::~Menu(){
 
 }
 
-void Menu::Update(sf::Vector2i l_mousePosition){
-    std::cout << l_mousePosition.x << std::endl;
-    std::cout << l_mousePosition.y << std::endl;
+ButtonState Menu::Update(sf::Vector2i l_mousePosition){
+    
+    if (m_newGame.getGlobalBounds().contains(sf::Vector2f(l_mousePosition))) {
+        return ButtonState::NewGame;
+    } else if (m_closeGame.getGlobalBounds().contains(sf::Vector2f(l_mousePosition))) {
+        return ButtonState::CloseGame;
+    } else {
+        return ButtonState::None;
+    }
 }
 
 void Menu::Render(sf::RenderWindow& l_window) {

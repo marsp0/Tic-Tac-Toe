@@ -9,10 +9,6 @@ Button::~Button() {
 
 }
 
-void Button::Update(sf::Vector2i l_mousePosition){
-    std::cout << 456 << std::endl;
-}
-
 void Button::Render(sf::RenderWindow& l_window){
     l_window.draw(m_background);
     l_window.draw(m_text);
@@ -28,4 +24,8 @@ void Button::Setup(sf::String l_title, sf::Vector2f l_size, sf::Color l_color, s
     m_background.setSize(l_size);
     m_background.setFillColor(l_color);
     m_background.setPosition(l_position);
+}
+
+sf::FloatRect Button::getGlobalBounds() {
+    return m_background.getGlobalBounds();
 }

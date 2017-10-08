@@ -48,3 +48,43 @@ bool PlayerX::Update(sf::Vector2i l_position, PlayerX& otherPlayer) {
 bool PlayerX::CanIDraw(int row, int col) {
     return !m_spriteStruct[row][col].second;
 }
+
+void PlayerX::Restart(){
+    for (int i=0; i < 3; i++) {
+        for (int j=0; j<3; j++) {
+            m_spriteStruct[i][j].second = false;
+        }
+    }
+}
+
+bool PlayerX::IsWinner(){
+    if (m_spriteStruct[0][0].second == true){
+        if ((m_spriteStruct[0][1].second == true) and (m_spriteStruct[0][2].second == true)) {
+            return true;
+        } else if ((m_spriteStruct[1][0].second == true) and (m_spriteStruct[2][0].second == true)) {
+            return true;
+        } else if ((m_spriteStruct[1][1].second == true) and (m_spriteStruct[2][2].second == true)) {
+            return true;
+        }
+    } else if (m_spriteStruct[0][1].second == true) {
+        if ((m_spriteStruct[1][1].second == true)and (m_spriteStruct[2][1].second == true)) {
+            return true;
+        }
+    } else if (m_spriteStruct[1][0].second == true) {
+        if ((m_spriteStruct[1][1].second == true) and (m_spriteStruct[1][2].second == true)) {
+            return true;
+        }
+    } else if (m_spriteStruct[2][2].second == true) {
+        if ((m_spriteStruct[2][1].second == true) and (m_spriteStruct[2][0].second == true)) {
+            return true;
+        } else if ((m_spriteStruct[1][2].second == true) and (m_spriteStruct[0][2].second == true)) {
+            return true;
+        }
+    } else if (m_spriteStruct[0][2].second == true) {
+        if ((m_spriteStruct[1][1].second == true) and (m_spriteStruct[2][0].second == true)) {
+            return true;
+        }
+    } else {
+        return false;
+    }
+}

@@ -26,6 +26,10 @@ public:
     void Run();
 
     void ProcessEvents();
+
+    void RestartGame();
+
+    void CloseGame();
     
 private:
 
@@ -38,4 +42,6 @@ private:
     float m_elapsed;
     int m_turn;
     Menu m_menu;
+    bool m_isNewGame;
+    bool m_isCloseGame;
 };

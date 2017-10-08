@@ -9,6 +9,8 @@ public:
     void Render(sf::RenderWindow& l_window);
     bool Update(sf::Vector2i l_position, PlayerX& otherPlayer);
     bool CanIDraw(int row, int col);
+    void Restart();
+    bool IsWinner();
 private:
     sf::Texture m_texture;
     std::pair<sf::Sprite, bool> m_spriteStruct[3][3];

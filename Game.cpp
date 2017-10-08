@@ -33,6 +33,7 @@ sf::RenderWindow* Game::GetWindow(){
 }
 
 void Game::HandleInput(){
+    
     if (m_currentState) {
         bool temp;
         if (m_turn) {
@@ -44,7 +45,13 @@ void Game::HandleInput(){
             m_turn = 1 - m_turn;
         }
     } else {
-        m_menu.Update(sf::Mouse::getPosition(*GetWindow()));
+        ButtonState temp;
+        temp = m_menu.Update(sf::Mouse::getPosition(*GetWindow()));
+        if (temp == ButtonState::NewGame) {
+            RestartGame();
+        } else if (temp == ButtonState::CloseGame){
+            CloseGame();
+        }
     }
 }
 
@@ -68,6 +75,11 @@ void Game::Update(){
 	float timestep = 1.0f / 15;
 	if(m_elapsed >= timestep){
         m_elapsed -= timestep;
+        if (m_playerX.IsWinner()) {
+            m_currentState = 0;
+        } else if (m_playerO.IsWinner()) {
+            m_currentState = 0;
+        }
 	}
 }
 
@@ -98,4 +110,15 @@ void Game::Run(){
         Render();
         RestartClock();
     }
+}
+
+void Game::RestartGame() {
+    m_playerX.Restart();
+    m_playerO.Restart();
+    m_currentState = 1;
+    m_turn = 1;
+}
+
+void Game::CloseGame() {
+    m_window.close();
 }
