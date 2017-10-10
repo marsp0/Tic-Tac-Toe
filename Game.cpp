@@ -2,6 +2,7 @@
 #include "World.hpp"
 #include "PlayerX.hpp"
 #include "Menu.hpp"
+#include "AI.hpp"
 #include <iostream>
 
 Game::Game() : m_window(sf::VideoMode(800,800,32),
@@ -10,13 +11,23 @@ Game::Game() : m_window(sf::VideoMode(800,800,32),
                 m_playerX("PlayerX.png"),
                 m_playerO("PlayerO.png"),
                 m_turn(1),
-                m_currentState(0)
+                m_currentState(0),
+                m_board(3,std::vector<int>(3)),
+                m_isAI(true)
 {
     m_window.setFramerateLimit(60);
     m_clock.restart();
     // WHY?
 	srand(time(nullptr));
     m_elapsed = 0.0f;
+
+    for (int i = 0; i < 3 ; i++){
+        for (int j = 0; j < 3 ; j++) {
+            m_board[i][j] = 0;
+        }
+    }
+
+
 }
 
 Game::~Game(){}
@@ -36,10 +47,29 @@ void Game::HandleInput(){
     
     if (m_currentState) {
         bool temp;
+        sf::Vector2i l_position = sf::Mouse::getPosition(*GetWindow());
+        l_position.x = l_position.x/262;
+        l_position.y = l_position.y/262;
         if (m_turn) {
-            temp = m_playerX.Update(sf::Mouse::getPosition(*GetWindow()),m_playerO);
+            temp = m_playerX.Update(l_position,m_playerO);
+            if (temp){
+                m_board[l_position.y][l_position.x] = 1;
+                if (m_isAI) {
+                    std::vector<int> move = m_bot.NextMove(m_board);
+                    sf::Vector2i l_position{move[1],move[0]};
+                    temp = m_playerO.Update(l_position, m_playerX);
+                    if (temp) {
+                        m_board[move[0]][move[1]] = 2;
+                    }
+                    temp = false;
+                }
+
+            }
         } else {
-            temp = m_playerO.Update(sf::Mouse::getPosition(*GetWindow()), m_playerX);
+            temp = m_playerO.Update(l_position, m_playerX);
+            if (temp){
+                m_board[l_position.y][l_position.x] = 2;
+            }
         }
         if (temp) {
             m_turn = 1 - m_turn;
@@ -117,8 +147,14 @@ void Game::RestartGame() {
     m_playerO.Restart();
     m_currentState = 1;
     m_turn = 1;
+    for (int i=0; i < 3; i++){
+        for (int j=0; j< 3; j++) {
+            m_board[i][j] = 0;
+        }
+    }
 }
 
 void Game::CloseGame() {
     m_window.close();
 }
+

@@ -2,6 +2,7 @@
 #include "World.hpp"
 #include "PlayerX.hpp"
 #include "Menu.hpp"
+#include "AI.hpp"
 #include <SFML/Graphics.hpp>
 
 
@@ -30,6 +31,18 @@ public:
     void RestartGame();
 
     void CloseGame();
+
+    std::vector<int> ComputerMove();
+
+    int maxSearch(int l_board[3][3]);
+
+    int minSearch(int l_board[3][3]);
+
+    int Score(int l_board[3][3]);
+
+    int CheckWin(int l_board[3][3], int player);
+
+    bool GameOver(int l_board[3][3]);
     
 private:
 
@@ -42,6 +55,7 @@ private:
     float m_elapsed;
     int m_turn;
     Menu m_menu;
-    bool m_isNewGame;
-    bool m_isCloseGame;
+    std::vector < std::vector <int> > m_board;
+    bool m_isAI;
+    AI m_bot;
 };

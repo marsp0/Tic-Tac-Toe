@@ -1,5 +1,5 @@
-output: main.o Game.o World.o PlayerX.o Menu.o Button.o
-	g++ -std=c++14 main.o Game.o World.o PlayerX.o Menu.o Button.o -o output -lsfml-graphics -lsfml-window -lsfml-system
+output: main.o Game.o World.o PlayerX.o Menu.o Button.o AI.o
+	g++ -std=c++14 main.o Game.o World.o PlayerX.o Menu.o Button.o AI.o -o output -lsfml-graphics -lsfml-window -lsfml-system
 
 main.o: main.cpp
 	g++ -std=c++14 -c main.cpp 
@@ -18,6 +18,9 @@ Menu.o: Menu.cpp Menu.hpp
 
 Button.o: Button.cpp Button.hpp
 	g++ -std=c++14 -c Button.cpp
+
+AI.o: AI.cpp AI.hpp
+	g++ -std=c++14 -c AI.cpp
 
 clean:
 	rm *.o output

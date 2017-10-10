@@ -11,7 +11,7 @@ PlayerX::PlayerX(std::string filename){
         for (int j=0 ; j < 3 ; j++) {
             sf::Sprite sprite;
             sprite.setTexture(m_texture);
-            sprite.setPosition(sf::Vector2f((i % 3)*275, (j % 3)*275));
+            sprite.setPosition(sf::Vector2f((j % 3)*275, (i % 3)*275));
             m_spriteStruct[i][j] = std::make_pair(sprite,false);
         }
     }
@@ -33,13 +33,9 @@ void PlayerX::Render(sf::RenderWindow& l_window){
 }
 
 bool PlayerX::Update(sf::Vector2i l_position, PlayerX& otherPlayer) {
-    int column;
-    int row;
     
-    column = (int) l_position.x/262;
-    row = (int) l_position.y/262;
-    if (!m_spriteStruct[column][row].second and otherPlayer.CanIDraw(column,row)) {
-        m_spriteStruct[column][row].second = true;
+    if (!m_spriteStruct[l_position.y][l_position.x].second and otherPlayer.CanIDraw(l_position.y,l_position.x)) {
+        m_spriteStruct[l_position.y][l_position.x].second = true;
         return true;
     }
     return false;
