@@ -1,2 +1,1 @@
-# Tic-Tac-Toe
-tic-tac-toe in c++
+## Welcome to Tic Tac Toe by Martin Spasov
